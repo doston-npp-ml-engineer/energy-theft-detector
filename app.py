@@ -100,8 +100,8 @@ with tab2:
         st.dataframe(raw_df.head())
 
         id_col = raw_df.columns[0]
-        date_cols = [c for c in raw_df.columns if c != id_col]
-
+        mahalla_col = raw_df.columns[1]          # yangi qator
+        date_cols = [c for c in raw_df.columns if c not in (id_col, mahalla_col)]  
         consumption = raw_df[date_cols]
 
         feats = pd.DataFrame(index=raw_df.index)
@@ -141,12 +141,22 @@ with tab2:
         probas = model.predict_proba(X_new)[:, 1]
         results = pd.DataFrame({
             id_col: raw_df[id_col],
+            mahalla_col: raw_df[mahalla_col],
             'ogirlik_ehtimoli': probas,
             'bashorat': np.where(probas >= 0.5, "O'G'IRLIK", "Normal")
         }).sort_values('ogirlik_ehtimoli', ascending=False)
 
         st.subheader("Natijalar")
         st.dataframe(results)
+
+        st.subheader("Mahalla bo'yicha xavf darajasi")
+        mahalla_stats = results.groupby(mahalla_col)['ogirlik_ehtimoli'].agg(
+            ortacha_xavf='mean',
+            abonentlar_soni='count',
+            yuqori_xavfli=lambda x: (x >= 0.5).sum()
+        ).sort_values('ortacha_xavf', ascending=False)
+        st.dataframe(mahalla_stats)
+        st.bar_chart(mahalla_stats['ortacha_xavf'])
 
         csv_out = results.to_csv(index=False).encode('utf-8')
         st.download_button("📥 Natijani CSV sifatida yuklab olish", csv_out, "natijalar.csv", "text/csv")        
