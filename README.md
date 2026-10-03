@@ -1,4 +1,4 @@
-# ⚡ Elektr Energiyasi O'g'irligini Aniqlash Tizimi
+# ⚡ Elektr Energiyasiga noqonuniy ulanishni aniqlash tizimi
 
 XGBoost va early stopping texnikasi asosida qurilgan, elektr energiyasi o'g'irligini (non-technical loss) aniqlaydigan machine learning loyihasi.
 
