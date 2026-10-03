@@ -158,5 +158,25 @@ with tab2:
         st.dataframe(mahalla_stats)
         st.bar_chart(mahalla_stats['ortacha_xavf'])
 
+        st.subheader("Energiya balansi (transformator darajasida) — ixtiyoriy")
+        st.write("Mahalladagi abonentlar yig'indisini transformatordan chiqqan energiya bilan solishtiradi. Bu qatlam hozircha namoyish uchun — real transformator ma'lumoti kerak.")
+
+        transformer_file = st.file_uploader(
+        "Transformator ma'lumotini yuklang (mahalla_id, transformator_kwh ustunlari bilan)",
+        type=["csv"], key="transformer_upload"
+        )
+
+        if transformer_file is not None:
+            transformer_df = pd.read_csv(transformer_file)
+            abonent_jami = consumption.sum(axis=1)
+            jami_df = pd.DataFrame({mahalla_col: raw_df[mahalla_col], 'abonentlar_jami_kwh': abonent_jami})
+            mahalla_jami = jami_df.groupby(mahalla_col)['abonentlar_jami_kwh'].sum()
+
+            balans = transformer_df.set_index(mahalla_col).join(mahalla_jami)
+            balans['yoqotish_kwh'] = balans['transformator_kwh'] - balans['abonentlar_jami_kwh']
+            balans['yoqotish_foiz'] = (balans['yoqotish_kwh'] / balans['transformator_kwh'] * 100).round(1)
+
+            st.dataframe(balans.sort_values('yoqotish_foiz', ascending=False))
+            st.bar_chart(balans['yoqotish_foiz'])
         csv_out = results.to_csv(index=False).encode('utf-8')
         st.download_button("📥 Natijani CSV sifatida yuklab olish", csv_out, "natijalar.csv", "text/csv")        
