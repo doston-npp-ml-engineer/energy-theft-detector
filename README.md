@@ -23,8 +23,8 @@ XGBoost va early stopping texnikasi asosida qurilgan, elektr energiyasi o'g'irli
 ## 🖥️ Ilova (Streamlit)
 
 Ikki xil kiritish rejimi:
-1. **Qo'lda kiritish** — 17 ta statistik ko'rsatkichni qo'lda kiritib, bitta mijoz uchun bashorat olish
-2. **CSV yuklash** — bir nechta mijozning xom kunlik iste'mol ma'lumotlarini yuklab, ommaviy bashorat olish va natijani CSV sifatida yuklab olish
+1. **Qo'lda kiritish** — 17 ta statistik ko'rsatkichni qo'lda kiritib, bitta mijoz uchun xulosa olish
+2. **CSV yuklash** — bir nechta mijozning xom kunlik iste'mol ma'lumotlarini yuklab, ommaviy xulosasini olish va natijani CSV sifatida yuklab olish
 
 ## 🚀 Ishga tushirish
 
