@@ -46,7 +46,7 @@ with tab1:
         max_daily_diff = st.number_input("Maksimal kunlik o'zgarish", min_value=0.0, value=10.0)
         weekly_std = st.number_input("Haftalik std", min_value=0.0, value=3.0)
     
-    if st.button("🔍 Bashorat qilish", key="manual_predict"):
+    if st.button("🔍 Xulosa chiqarish", key="manual_predict"):
         feature_order = [
             'mean_consumption', 'std_consumption', 'median_consumption',
             'min_consumption', 'max_consumption', 'cv', 'zero_ratio',
@@ -143,7 +143,7 @@ with tab2:
             id_col: raw_df[id_col],
             mahalla_col: raw_df[mahalla_col],
             'ogirlik_ehtimoli': probas,
-            'bashorat': np.where(probas >= 0.5, "O'G'IRLIK", "Normal")
+            'xulosa': np.where(probas >= 0.5, "O'G'IRLIK", "Normal")
         }).sort_values('ogirlik_ehtimoli', ascending=False)
 
         st.subheader("Natijalar")
